@@ -6,14 +6,14 @@ import { HiOutlineDocumentText } from 'react-icons/hi';
 import { FaRegFilePdf } from "react-icons/fa6";
 import { GrScan } from "react-icons/gr";
 import { FaLinkedin, FaGithub, FaPaperPlane } from "react-icons/fa";
-
-
+import bgImage from './assets/image.png';
 
 export default function App() {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white font-sans ">
+
       {/* Navbar */}
-      <header className="flex items-center justify-between px-8 py-5 border-b border-gray-700">
+      <header className="flex items-center justify-between px-8 py-5 border-b border-gray-700 ">
         <h1 className="text-2xl font-bold">InkSpector</h1>
       <nav className="flex-1 flex justify-center">
     <div className="flex gap-8 text-gray-400">
@@ -34,7 +34,7 @@ export default function App() {
       </header>
 
       {/* Hero Section */}
-      <section className="flex flex-col items-center text-center py-20 px-6">
+      <section className="flex flex-col items-center text-center py-20 px-6 ">
         <h2 className="text-5xl font-extrabold mb-4">
           Welcome to <span className="text-indigo-400">InkSpector</span>
         </h2>
@@ -239,11 +239,11 @@ export default function App() {
         </div>
       </section> 
       {/* footer */}
-      <footer className="bg-black text-white py-12 px-6 md:px-16">
+      <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 px-6 md:px-16">
       <div className="grid md:grid-cols-4 gap-8">
         {/* Column 1: Company Info */}
         <div>
-          <h2 className="text-indigo-400 text-xl font-bold mb-4">FORGESCAN</h2>
+          <h2 className="text-indigo-400 text-xl font-bold mb-4">InkSpector</h2>
           <p className="text-sm text-gray-300 mb-4">
             Advanced AI-powered document forensics platform trusted by law
             enforcement agencies, legal professionals, and financial
@@ -305,7 +305,7 @@ export default function App() {
 
       {/* Bottom Line */}
       <div className="border-t border-gray-700 mt-12 pt-6 text-sm text-gray-400 text-center">
-        © 2023 FORGESCAN. All rights reserved. |{' '}
+        © 2025 InkSpector. All rights reserved. |{' '}
         <a href="#" className="text-indigo-400 hover:underline">
           Privacy Policy
         </a>{' '}

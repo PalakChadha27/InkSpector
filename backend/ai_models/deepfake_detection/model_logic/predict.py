@@ -1,13 +1,20 @@
-import numpy as np
-import cv2
+import os
 from tensorflow.keras.models import load_model
 
 class DeepfakeDetector:
-    def __init__(self, model_path='../../../trained_models/deepfake_model.keras'):
+    def __init__(self, model_path=None):
+        if model_path is None:
+            # Absolute path relative to this file
+            model_path = os.path.join(
+                os.path.dirname(__file__),  # model_logic folder
+                "../trained_models/deepfake_model.keras"
+            )
         self.model = load_model(model_path)
         self.img_size = (256, 256)
     
     def preprocess(self, image_path):
+        import cv2
+        import numpy as np
         img = cv2.imread(image_path)
         img = cv2.resize(img, self.img_size)
         img = img.astype('float32') / 255.0
@@ -24,9 +31,3 @@ class DeepfakeDetector:
             }
         except Exception as e:
             return {'error': str(e)}
-
-# Example usage:
-if __name__ == "__main__":
-    detector = DeepfakeDetector()
-    result = detector.predict("test_image.jpg")  # Replace with your image path
-    print("Prediction Result:", result)

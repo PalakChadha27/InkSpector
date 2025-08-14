@@ -60,23 +60,38 @@ const DeepfakeDetection = () => {
   const analyzeMedia = async () => {
     if (!file) return;
     setIsLoading(true);
+    setError('');
 
     try {
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      navigate('/analysis-results', {
-        state: {
-          isDeepfake: Math.random() > 0.5,
-          confidence: (Math.random() * 100).toFixed(2),
-          analysisData: {
-            pixelAnalysis: 'Detected potential GAN artifacts',
-            temporalAnalysis: file.type.includes('video') ? 'Inconsistent frame transitions' : 'N/A',
-            riskScore: (Math.random() * 10).toFixed(1)
-          },
-          originalMedia: preview
-        }
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await fetch('http://127.0.0.1:8000/api/predict', {
+        method: 'POST',
+        body: formData
       });
+
+      const data = await response.json();
+
+      if (data.error) {
+        setError(data.error);
+      } else {
+        navigate('/analysis-results', {
+          state: {
+            isDeepfake: data.is_fake,
+            confidence: (data.confidence * 100).toFixed(2),
+            score: data.score,
+            originalMedia: preview,
+            analysisData: {
+              pixelAnalysis: 'Model detected potential manipulations',
+              temporalAnalysis: file.type.includes('video') ? 'Check frame transitions' : 'N/A',
+              riskScore: (data.confidence * 10).toFixed(1)
+            }
+          }
+        });
+      }
     } catch (err) {
-      setError('Analysis failed. Please try again.');
+      setError('API call failed. Please try again.');
     } finally {
       setIsLoading(false);
     }

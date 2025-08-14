@@ -1,30 +1,29 @@
-# app.py
+# backend/app.py
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
+from ai_models.deepfake_detection.model_logic.predict import DeepfakeDetector
 
 app = Flask(__name__)
+CORS(app)  # development only
 
-# Enable CORS for all routes (development only)
-CORS(app)
+# Load model once when server starts
+detector = DeepfakeDetector(
+    model_path=os.path.join(os.path.dirname(__file__), "ai_models/deepfake_detection/trained_models/deepfake_model.keras")
+)
 
-# Test route for frontend connection
-@app.route("/api/register", methods=["POST"])
-def register():
-    try:
-        data = request.get_json()
-        name = data.get("name", "User")
-        return jsonify({
-            "status": "success",
-            "message": f"Hello {name}, backend connected successfully!"
-        }), 200
-    except Exception as e:
-        return jsonify({"status": "error", "message": str(e)}), 500
-
-# Optional root route for quick check in browser
-@app.route("/", methods=["GET"])
-def home():
-    return jsonify({"message": "Flask backend is running"}), 200
+@app.route("/api/predict", methods=["POST"])  # <-- only POST allowed
+def predict():
+    if "file" not in request.files:
+        return jsonify({"error": "No file uploaded"}), 400
+    
+    file = request.files["file"]
+    file_path = os.path.join("/tmp", file.filename)
+    file.save(file_path)
+    
+    result = detector.predict(file_path)
+    
+    return jsonify(result), 200
 
 if __name__ == "__main__":
     host = os.getenv("FLASK_RUN_HOST", "127.0.0.1")

@@ -26,3 +26,5 @@ backend/venv/
 backend/venv/
 __pycache__/
 *.pyc
+
+backend/ai_models/deepfake_detection/datasets/simulated/

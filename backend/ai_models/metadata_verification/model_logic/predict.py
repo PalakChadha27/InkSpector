@@ -1,10 +1,19 @@
+import os
 import json
 import numpy as np
 from datetime import datetime
 from tensorflow.keras.models import load_model
 
 class MetadataVerifier:
-    def __init__(self, model_path='backend/ai_models/metadata_verification/trained_models/metadata_model.keras'):
+    def __init__(self, model_path=None):
+        # Resolve model path relative to this file
+        if model_path is None:
+            base_dir = os.path.dirname(os.path.dirname(__file__))  # go up from model_logic
+            model_path = os.path.join(base_dir, "trained_models", "metadata_model.keras")
+        
+        if not os.path.exists(model_path):
+            raise FileNotFoundError(f"Model file not found at: {model_path}")
+        
         self.model = load_model(model_path)
     
     def preprocess(self, metadata):

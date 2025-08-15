@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom'; // Keep for 'Back' button, remove if not needed elsewhere
 import { MdGesture, MdClose, MdUpload } from 'react-icons/md';
 
 const DeepfakeDetection = () => {
@@ -7,6 +7,8 @@ const DeepfakeDetection = () => {
   const [preview, setPreview] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState('');
+  const [apiResponse, setApiResponse] = useState(null); // This will now be used to display results on the same page
+  const [uploadProgress, setUploadProgress] = useState(0);
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
@@ -27,31 +29,39 @@ const DeepfakeDetection = () => {
 
   const validateAndSetFile = (selectedFile) => {
     setError('');
+    setApiResponse(null); // Clear previous results
     if (!selectedFile) return;
 
-    const validTypes = ['image/jpeg', 'image/png', 'video/mp4', 'video/quicktime'];
-    if (!validTypes.includes(selectedFile.type)) {
+    const validTypes = ['image/jpeg', 'image/png', 'video/mp4', 'video/quicktime', 'image/jpg'];
+    const maxSizeMB = 50;
+    
+    if (!validTypes.includes(selectedFile.type.toLowerCase())) {
       setError('Please upload a JPEG, PNG image, or MP4/MOV video');
       return;
     }
 
-    if (selectedFile.size > 50 * 1024 * 1024) {
-      setError('File size exceeds 50MB limit');
+    if (selectedFile.size > maxSizeMB * 1024 * 1024) {
+      setError(`File size exceeds ${maxSizeMB}MB limit`);
       return;
     }
 
     setFile(selectedFile);
 
+    // Create preview
     if (selectedFile.type.includes('image')) {
-      setPreview(URL.createObjectURL(selectedFile));
+      const reader = new FileReader();
+      reader.onload = (e) => setPreview(e.target.result);
+      reader.readAsDataURL(selectedFile);
     } else {
-      setPreview(null);
+      setPreview(URL.createObjectURL(selectedFile));
     }
   };
 
   const removeFile = () => {
     setFile(null);
     setPreview(null);
+    setUploadProgress(0);
+    setApiResponse(null); // Clear results when file is removed
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -61,37 +71,49 @@ const DeepfakeDetection = () => {
     if (!file) return;
     setIsLoading(true);
     setError('');
+    setApiResponse(null); // Reset previous response
+    setUploadProgress(0);
 
     try {
       const formData = new FormData();
       formData.append('file', file);
 
-      const response = await fetch('http://127.0.0.1:8000/api/predict', {
-        method: 'POST',
-        body: formData
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'http://127.0.0.1:8000/api/predict');
+
+      xhr.upload.onprogress = (e) => {
+        if (e.lengthComputable) {
+          setUploadProgress(Math.round((e.loaded / e.total) * 100));
+        }
+      };
+
+      const response = await new Promise((resolve, reject) => {
+        xhr.onload = () => {
+          if (xhr.status >= 200 && xhr.status < 300) {
+            try {
+              resolve(JSON.parse(xhr.responseText));
+            } catch (e) {
+              reject(new Error('Invalid JSON response from server.'));
+            }
+          } else {
+            reject(new Error(`Server error: ${xhr.statusText}`));
+          }
+        };
+        xhr.onerror = () => reject(new Error('Network error. Failed to connect to the server.'));
+        xhr.send(formData);
       });
 
-      const data = await response.json();
-
-      if (data.error) {
-        setError(data.error);
+      // Store the API response to be displayed on this page
+      if (response && typeof response.is_fake !== 'undefined') {
+        setApiResponse(response);
+        console.log('API Response:', response);
       } else {
-        navigate('/analysis-results', {
-          state: {
-            isDeepfake: data.is_fake,
-            confidence: (data.confidence * 100).toFixed(2),
-            score: data.score,
-            originalMedia: preview,
-            analysisData: {
-              pixelAnalysis: 'Model detected potential manipulations',
-              temporalAnalysis: file.type.includes('video') ? 'Check frame transitions' : 'N/A',
-              riskScore: (data.confidence * 10).toFixed(1)
-            }
-          }
-        });
+        throw new Error('Invalid response format from server.');
       }
+
     } catch (err) {
-      setError('API call failed. Please try again.');
+      setError(err.message || 'Analysis failed. Please try again.');
+      console.error('API Error:', err);
     } finally {
       setIsLoading(false);
     }
@@ -119,14 +141,14 @@ const DeepfakeDetection = () => {
 
           <div 
             className={`border-2 border-dashed rounded-lg p-12 text-center mb-4 transition-all 
-              ${!file ? 'border-[#00ff41] bg-gray-800 hover:bg-gray-700' : 'border-gray-600'}`}
+              ${!file ? 'border-[#00ff41] bg-gray-800 hover:bg-gray-700 cursor-pointer' : 'border-gray-600'}`}
             onDragOver={handleDragOver}
             onDrop={handleDrop}
             onClick={() => !file && fileInputRef.current?.click()}
           >
             {file ? (
               <div className="relative">
-                {preview ? (
+                {preview && (
                   <div className="flex flex-col items-center">
                     {file.type.includes('image') ? (
                       <img 
@@ -136,7 +158,7 @@ const DeepfakeDetection = () => {
                       />
                     ) : (
                       <video 
-                        src={URL.createObjectURL(file)} 
+                        src={preview}
                         controls 
                         className="max-h-64 mb-4 rounded-lg"
                       />
@@ -148,11 +170,6 @@ const DeepfakeDetection = () => {
                       <MdClose className="mr-1" /> Remove File
                     </button>
                   </div>
-                ) : (
-                  <div className="text-gray-300">
-                    <p className="mb-2">{file.name}</p>
-                    <p className="text-sm text-gray-400">{file.type} • {(file.size / (1024 * 1024)).toFixed(2)}MB</p>
-                  </div>
                 )}
               </div>
             ) : (
@@ -160,7 +177,7 @@ const DeepfakeDetection = () => {
                 <MdUpload className="text-5xl text-[#00ff41] mb-4" />
                 <p className="text-xl mb-2">Drag & Drop Media Here</p>
                 <p className="text-gray-400 mb-4">or click to browse files</p>
-                <p className="text-sm text-gray-500">Supports: JPEG, PNG, MP4 (Max 50MB)</p>
+                <p className="text-sm text-gray-500">Supports: JPEG, PNG, MP4, MOV (Max 50MB)</p>
               </div>
             )}
           </div>
@@ -169,13 +186,22 @@ const DeepfakeDetection = () => {
             type="file"
             ref={fileInputRef}
             onChange={handleFileChange}
-            accept="image/jpeg,image/png,video/mp4,video/quicktime"
+            accept="image/jpeg,image/png,video/mp4,video/quicktime,image/jpg"
             className="hidden"
           />
 
           {error && (
             <div className="text-red-400 mb-4 text-center">
               {error}
+            </div>
+          )}
+
+          {uploadProgress > 0 && uploadProgress < 100 && (
+            <div className="w-full bg-gray-700 rounded-full h-2.5 mb-4">
+              <div 
+                className="bg-[#00ff41] h-2.5 rounded-full" 
+                style={{ width: `${uploadProgress}%` }}
+              ></div>
             </div>
           )}
 
@@ -200,6 +226,36 @@ const DeepfakeDetection = () => {
               'Analyze for Deepfake'
             )}
           </button>
+          
+          {/* NEW: On-page results display */}
+          {apiResponse && (
+            <div className="mt-6 p-6 bg-gray-900 rounded-lg border border-gray-600">
+              <h3 className="text-xl font-bold text-white mb-4">Analysis Result</h3>
+              <div className="flex justify-between items-center p-4 rounded-md bg-gray-800">
+                <span className="font-medium text-gray-300">Verdict:</span>
+                <span className={`px-3 py-1 text-lg font-bold rounded-full ${
+                    !apiResponse.is_fake
+                      ? 'bg-green-500/20 text-green-400'
+                      : 'bg-red-500/20 text-red-400'
+                  }`}
+                >
+                  {apiResponse.is_fake ? 'Deepfake Detected' : 'Authentic Media'}
+                </span>
+              </div>
+              <div className="flex justify-between items-center mt-3 p-4 rounded-md bg-gray-800">
+                <span className="font-medium text-gray-300">Confidence:</span>
+                <span className="text-white font-mono text-lg">
+                  {(apiResponse.confidence * 100)}%
+                </span>
+              </div>
+              <div className="flex justify-between items-center mt-3 p-4 rounded-md bg-gray-800">
+                <span className="font-medium text-gray-300">Raw Score:</span>
+                <span className="text-white font-mono text-sm">
+                  {apiResponse.score.toExponential(4)}
+                </span>
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="bg-gray-800 border border-[#00ff41] rounded-xl p-6">

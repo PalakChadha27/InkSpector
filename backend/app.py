@@ -11,8 +11,18 @@ UPLOAD_FOLDER = os.path.join(os.path.dirname(__file__), 'temp_uploads')
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)  # Create if doesn't exist
 
 detector = DeepfakeDetector(
-    model_path=os.path.join(os.path.dirname(__file__), "ai_models/deepfake_detection/trained_models/deepfake_model.keras")
+    model_path=os.path.join(
+        os.path.dirname(__file__),
+        "ai_models/deepfake_detection/trained_models/deepfake_model.keras"
+    )
 )
+
+# GET route so browser can open
+@app.route("/", methods=["GET"])
+def home():
+    return jsonify({"message": "Deepfake Detection API is running"}), 200
+
+# POST route for prediction
 @app.route("/api/predict", methods=["POST"])
 def predict():
     if "file" not in request.files:

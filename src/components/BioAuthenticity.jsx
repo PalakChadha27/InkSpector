@@ -18,7 +18,7 @@ const BioAuthenticityCheck = () => {
 
   const analyzeText = async () => {
     if (!text.trim() || charCount < 20) {
-      setError('Please enter at least 20 characters for analysis');
+      setError('Please enter at least 20 characters to proceed for analysis');
       return;
     }
 

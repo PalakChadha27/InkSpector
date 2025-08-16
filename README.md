@@ -116,7 +116,7 @@ Output:
 
 * **AI/ML**: TensorFlow/Keras, PyTorch, NLP, OCR
 * **Backend**: Python (Flask / FastAPI)
-* **Frontend**: React (Vite)
+* **Frontend**: React (Vite) with tailwind css
 * **Database**: PostgreSQL (planned)
 
 ---

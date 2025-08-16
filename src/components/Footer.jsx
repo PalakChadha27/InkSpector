@@ -18,7 +18,7 @@ export default function Footer() {
               <a href="#" className="text-[#00ff41] text-xl hover:opacity-80">
                 <FaLinkedin />
               </a>
-              <a href="#" className="text-[#00ff41] text-xl hover:opacity-80">
+              <a href="https://github.com/PalakChadha27/InkSpector" className="text-[#00ff41] text-xl hover:opacity-80">
                 <FaGithub />
               </a>
             </div>

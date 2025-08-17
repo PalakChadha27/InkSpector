@@ -7,7 +7,7 @@ import { GrScan } from 'react-icons/gr';
 const Tools = () => {
   const navigate = useNavigate();
 
-  const ToolCard = ({ icon, title, description, route }) => (
+  const ToolCard = ({ icon, title, description, route, isReady }) => (
     <div className="h-full p-6 bg-gray-900 rounded-xl border border-gray-700 hover:border-[#00ff41] transition hover:shadow-lg hover:shadow-[#00ff41]/20 flex flex-col justify-between">
       <div>
         <div className="mb-4 text-3xl text-[#00ff41]">{icon}</div>
@@ -15,10 +15,15 @@ const Tools = () => {
         <p className="text-gray-400">{description}</p>
       </div>
       <button
-        onClick={() => navigate(route)}
-        className="mt-6 px-4 py-2 bg-[#00ff41] text-black font-semibold rounded-lg hover:bg-[#00cc33] transition"
+        onClick={() => isReady && navigate(route)}
+        className={`mt-6 px-4 py-2 font-semibold rounded-lg transition ${
+          isReady
+            ? "bg-[#00ff41] text-black hover:bg-[#00cc33]"
+            : "bg-gray-700 text-gray-400 cursor-not-allowed"
+        }`}
+        disabled={!isReady}
       >
-        Open
+        {isReady ? "Analyse Now" : "Coming Soon"}
       </button>
     </div>
   );
@@ -41,36 +46,42 @@ const Tools = () => {
             title="Deepfake Detection"
             description="Identifies AI-manipulated or tampered face images and videos using advanced convolutional neural networks that analyze pixel-level inconsistencies and temporal artifacts."
             route="/deepfake"
+            isReady={true}
           />
           <ToolCard
             icon={<FaMicrophone />}
             title="Voice Authenticity Analysis"
             description="Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio."
             route="/voiceauthenticity"
+            isReady={false}
           />
           <ToolCard
             icon={<FaFingerprint />}
             title="Bio/Profile Originality"
             description="Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities."
             route="/bioauthenticity"
+            isReady={true}
           />
           <ToolCard
             icon={<GrScan />}
             title="Metadata Integrity"
             description="Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation."
             route="/metaverification"
+            isReady={true}
           />
           <ToolCard
             icon={<MdAssignment />}
             title="Document Verification"
             description="Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices."
             route="/documentverification"
+            isReady={false}
           />
           <ToolCard
             icon={<FaShieldAlt />}
             title="Trust Score Aggregation"
             description="Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users."
             route="/trustscore"
+            isReady={false}
           />
         </div>
       </div>

@@ -1,14 +1,13 @@
-import React, { useState, useRef } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FaUserEdit, FaSearch, FaSpinner, FaCopy, FaRobot } from 'react-icons/fa';
+import React, { useState, useRef } from "react";
+import { FaUserEdit, FaSearch, FaSpinner, FaCopy, FaRobot } from "react-icons/fa";
 
 const BioAuthenticityCheck = () => {
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [charCount, setCharCount] = useState(0);
+  const [results, setResults] = useState(null);
   const textareaRef = useRef(null);
-  const navigate = useNavigate();
 
   const handleTextChange = (e) => {
     const inputText = e.target.value;
@@ -18,46 +17,32 @@ const BioAuthenticityCheck = () => {
 
   const analyzeText = async () => {
     if (!text.trim() || charCount < 20) {
-      setError('Please enter at least 20 characters to proceed for analysis');
+      setError("Please enter at least 20 characters to proceed for analysis");
       return;
     }
 
     setIsAnalyzing(true);
-    setError('');
+    setError("");
+    setResults(null);
 
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 2500));
-      
-      // Generate sample analysis results
-      const isAiGenerated = Math.random() > 0.6; // 40% chance to be AI
-      const plagiarismScore = Math.min(100, Math.floor(Math.random() * 40)); // 0-40%
-      const uniquenessScore = 100 - plagiarismScore;
-      
-      navigate('/bio-analysis-results', {
-        state: {
-          originalText: text,
-          isAiGenerated,
-          confidence: (Math.random() * 100).toFixed(2),
-          scores: {
-            uniqueness: uniquenessScore,
-            plagiarism: plagiarismScore,
-            readability: (Math.random() * 100).toFixed(2)
-          },
-          redFlags: [
-            ...(isAiGenerated ? ['Detected GPT-like patterns'] : []),
-            ...(plagiarismScore > 20 ? [`${plagiarismScore}% matches known profiles`] : []),
-            ...(text.length > 500 ? ['Overly verbose for human writing'] : [])
-          ].slice(0, 3),
-          suggestions: [
-            'Verify with government ID',
-            'Request video verification',
-            'Check linked social profiles'
-          ]
-        }
+      const res = await fetch("http://127.0.0.1:8000/api/check", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ bio: text }),
       });
+
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error || "Server error");
+      }
+
+      const data = await res.json();
+      setResults(data.analysis);
     } catch (err) {
-      setError('Analysis failed. Please try again.');
+      setError(`Analysis failed: ${err.message}`);
     } finally {
       setIsAnalyzing(false);
     }
@@ -67,35 +52,29 @@ const BioAuthenticityCheck = () => {
     try {
       const clipboardText = await navigator.clipboard.readText();
       if (clipboardText.length > 10000) {
-        setError('Pasted text exceeds 10,000 character limit');
+        setError("Pasted text exceeds 10,000 character limit");
         return;
       }
       setText(clipboardText);
       setCharCount(clipboardText.length);
       textareaRef.current.focus();
     } catch (err) {
-      setError('Could not access clipboard. Please paste manually.');
+      setError("Could not access clipboard. Please paste manually.");
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-4xl mx-auto">
-        <button 
-          onClick={() => navigate(-1)}
-          className="mb-6 text-[#00ff41] hover:text-[#00e036] flex items-center"
-        >
-          ← Back to Tools
-        </button>
-
         <div className="bg-gray-800 rounded-xl p-8 mb-8">
           <div className="flex items-center mb-6">
             <FaUserEdit className="text-3xl text-[#00ff41] mr-4" />
             <h1 className="text-3xl font-bold">Bio/Profile Authenticity Check</h1>
           </div>
           <p className="text-gray-300 mb-8">
-            Uses natural language processing to compare text against known datasets, 
-            detecting copied or AI-generated content to flag suspicious identities.
+            Uses natural language processing to compare text against known
+            datasets, detecting copied or AI-generated content to flag suspicious
+            identities.
           </p>
 
           {/* Text Analysis Area */}
@@ -108,7 +87,7 @@ const BioAuthenticityCheck = () => {
                 {charCount}/10,000 characters
               </span>
             </div>
-            
+
             <div className="relative">
               <textarea
                 ref={textareaRef}
@@ -128,20 +107,18 @@ const BioAuthenticityCheck = () => {
             </div>
           </div>
 
-          {error && (
-            <div className="text-red-400 mb-4 text-center">
-              {error}
-            </div>
-          )}
+          {error && <div className="text-red-400 mb-4 text-center">{error}</div>}
 
           <button
             onClick={analyzeText}
             disabled={!text.trim() || isAnalyzing}
             className={`w-full py-3 rounded-lg font-medium flex items-center justify-center transition-colors
-              ${text.trim() 
-                ? 'bg-[#00ff41] hover:bg-[#00e036] text-gray-900' 
-                : 'bg-gray-700 text-gray-400 cursor-not-allowed'}
-              ${isAnalyzing ? 'opacity-70' : ''}`}
+              ${
+                text.trim()
+                  ? "bg-[#00ff41] hover:bg-[#00e036] text-gray-900"
+                  : "bg-gray-700 text-gray-400 cursor-not-allowed"
+              }
+              ${isAnalyzing ? "opacity-70" : ""}`}
           >
             {isAnalyzing ? (
               <>
@@ -157,8 +134,64 @@ const BioAuthenticityCheck = () => {
           </button>
         </div>
 
-        <div className="bg-gray-800 rounded-xl p-6">
-          <h2 className="text-xl font-semibold mb-4" style={{ color: '#00ff41' }}>
+        {/* Results Section */}
+        {results && (
+          <div className="bg-gray-800 rounded-xl p-6 mt-6">
+            <h2 className="text-2xl font-bold mb-4" style={{ color: "#00ff41" }}>
+              Analysis Results
+            </h2>
+
+            <p className="mb-2">
+              <span className="font-semibold">AI Generated:</span>{" "}
+              {results.is_ai_generated ? "Yes" : "No"}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold">Confidence:</span>{" "}
+              {results.confidence?.toFixed(2)}%
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 my-4">
+              <div className="bg-gray-700/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Uniqueness</p>
+                <p>{results.uniqueness || 0}%</p>
+              </div>
+              <div className="bg-gray-700/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Plagiarism</p>
+                <p>{results.plagiarism || 0}%</p>
+              </div>
+              <div className="bg-gray-700/50 p-4 rounded-lg text-center">
+                <p className="font-semibold">Readability</p>
+                <p>{results.readability || 0}%</p>
+              </div>
+            </div>
+
+            {results.red_flags?.length > 0 && (
+              <div className="mb-4">
+                <h3 className="font-semibold text-red-400 mb-2">Red Flags</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  {results.red_flags.map((flag, idx) => (
+                    <li key={idx}>{flag}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {results.suggestions?.length > 0 && (
+              <div>
+                <h3 className="font-semibold text-[#00ff41] mb-2">Suggestions</h3>
+                <ul className="list-disc pl-5 space-y-1">
+                  {results.suggestions.map((s, idx) => (
+                    <li key={idx}>{s}</li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Info Section */}
+        <div className="bg-gray-800 rounded-xl p-6 mt-8">
+          <h2 className="text-xl font-semibold mb-4" style={{ color: "#00ff41" }}>
             How We Detect Suspicious Content
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
@@ -193,19 +226,22 @@ const BioAuthenticityCheck = () => {
             </div>
           </div>
 
-          <h2 className="text-xl font-semibold mb-4" style={{ color: '#00ff41' }}>
+          <h2 className="text-xl font-semibold mb-4" style={{ color: "#00ff41" }}>
             Recommended Use Cases
           </h2>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             {[
-              'Online dating profiles',
-              'Job applicant bios',
-              'Social media influencers',
-              'Marketplace seller profiles',
-              'Forum moderators',
-              'Customer support reps'
+              "Online dating profiles",
+              "Job applicant bios",
+              "Social media influencers",
+              "Marketplace seller profiles",
+              "Forum moderators",
+              "Customer support reps",
             ].map((useCase) => (
-              <div key={useCase} className="bg-gray-700/30 p-3 rounded-lg text-center">
+              <div
+                key={useCase}
+                className="bg-gray-700/30 p-3 rounded-lg text-center"
+              >
                 <p className="text-sm">{useCase}</p>
               </div>
             ))}

@@ -133,12 +133,12 @@ export default function HeroSection() {
 
           <div className="grid gap-5 md:grid-cols-3">
             {[
-              { icon: <MdGesture />, title: "Deepfake Detection", desc: "Identifies AI-manipulated or tampered face images and videos using advanced convolutional neural networks that analyze pixel-level inconsistencies and temporal artifacts.", link: "/deepfake" },
-              { icon: <HiOutlineDocumentText />, title: "Voice Authenticity Analysis", desc: "Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio", link: "/voiceauthenticity" },
-              { icon: <FaFingerprint />, title: "Bio/Profile Originality Checking", desc: "Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities.", link: "/bioauthenticity" },
-              { icon: <GrScan />, title: "Metadata Integrity Verification", desc: "Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation.", link: "/metaverification" },
-              { icon: <FaRegFilePdf />, title: "Document Verification", desc: "Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices.", link: "/documentverification" },
-              { icon: <FaRegFilePdf />, title: "Trust Score Aggregation", desc: "Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users.", link: "/trustscore" }
+              { icon: <MdGesture />, title: "Deepfake Detection", desc: "Identifies AI-manipulated or tampered face images and videos using advanced convolutional neural networks that analyze pixel-level inconsistencies and temporal artifacts.", link: "/deepfake",availability:true },
+              { icon: <HiOutlineDocumentText />, title: "Voice Authenticity Analysis", desc: "Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio", link: "/voiceauthenticity",availability:false },
+              { icon: <FaFingerprint />, title: "Bio/Profile Originality Checking", desc: "Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities.", link: "/bioauthenticity",availability:true },
+              { icon: <GrScan />, title: "Metadata Integrity Verification", desc: "Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation.", link: "/metaverification",availability:true },
+              { icon: <FaRegFilePdf />, title: "Document Verification", desc: "Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices.", link: "/documentverification",availability:false },
+              { icon: <FaRegFilePdf />, title: "Trust Score Aggregation", desc: "Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users.", link: "/trustscore",availability:false }
             ].map((tool, i) => (
               <div key={i} className="p-6 bg-gray-900 rounded-xl border border-gray-700 hover:border-[#00ff41] transition">
                 <div className="mb-4 text-3xl" style={{ color: "#00ff41" }}>{tool.icon}</div>
@@ -146,6 +146,7 @@ export default function HeroSection() {
                 <p className="text-gray-400 mb-4">{tool.desc}</p>
                 <Link to={tool.link}>
                   <button
+                    disabled={!tool.availability}
                     className="px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 shadow-lg"
                     style={{
                       backgroundColor: "#00ff41",

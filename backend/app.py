@@ -7,7 +7,6 @@ from ai_models.metadata_verification.model_logic.predict import MetadataVerifier
 from werkzeug.utils import secure_filename
 from PIL import Image
 import piexif
-
 app = Flask(__name__)
 CORS(app)
 

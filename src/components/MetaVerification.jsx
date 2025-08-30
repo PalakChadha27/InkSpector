@@ -164,35 +164,82 @@ const MetadataVerification = () => {
 
         {/* Results Section */}
         {(metadata || analysis) && (
-          <div className="bg-gray-800 rounded-xl p-8">
-            <h2 className="text-2xl font-bold mb-4">Results</h2>
+        <div className="bg-gray-800 rounded-xl p-8 text-white shadow-lg">
+          <h2 className="text-3xl font-bold mb-6 border-b border-gray-700 pb-2">🧾 Results Summary</h2>
 
-            {metadata && (
-              <>
-                <h3 className="text-xl font-semibold mb-2 flex items-center">
-                  <FaInfoCircle className="mr-2 text-[#00ff41]" /> Extracted Metadata
-                </h3>
-                <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm mb-6">
-                  {JSON.stringify(metadata, null, 2)}
-                </pre>
-              </>
-            )}
+          {metadata && (
+            <div className="mb-8">
+              <h3 className="text-2xl font-semibold mb-4 flex items-center text-[#00ff41]">
+                <FaInfoCircle className="mr-2" /> Extracted Metadata
+              </h3>
+              <div className="bg-gray-900 p-5 rounded-lg text-sm grid grid-cols-1 gap-4">
+                {Object.entries(metadata).length > 0 ? (
+                  Object.entries(metadata).map(([key, value]) => (
+                    <div key={key} className="flex justify-between border-b border-gray-700 pb-1">
+                      <span className="text-gray-300 font-medium">{key}</span>
+                      <span className="text-gray-100">{JSON.stringify(value)}</span>
+                    </div>
+                  ))
+                ) : (
+                  <p className="text-gray-400 italic">No metadata found.</p>
+                )}
+              </div>
+            </div>
+          )}
 
-            {analysis && (
-              <>
-                <h3 className="text-xl font-semibold mb-2 flex items-center">
-                  <FaHistory className="mr-2 text-[#00ff41]" /> AI Analysis
-                </h3>
-                <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
-                  {JSON.stringify(analysis, null, 2)}
-                </pre>
-              </>
-            )}
-          </div>
-        )}
-      </div>
+          {analysis && (
+            <div>
+              <h3 className="text-2xl font-semibold mb-4 flex items-center text-[#00ff41]">
+                <FaHistory className="mr-2" /> AI Analysis
+              </h3>
+
+              <div className="bg-gray-900 p-5 rounded-lg text-sm space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-300 font-medium">Tampering Status</span>
+                  <span className={`font-semibold ${analysis.is_tampered ? "text-red-400" : "text-green-400"}`}>
+                    {analysis.is_tampered ? (
+                      <>
+                        <FaExclamationTriangle className="inline mr-1" />
+                        Tampered
+                      </>
+                    ) : (
+                      <>
+                        <FaCheckCircle className="inline mr-1" />
+                        Clean
+                      </>
+                    )}
+                  </span>
+                </div>
+
+                <div className="flex justify-between">
+                  <span className="text-gray-300 font-medium">Confidence</span>
+                  <span className="text-gray-100">{(analysis.confidence * 100).toFixed(2)}%</span>
+                </div>
+
+                {analysis.features && (
+                  <div className="mt-4">
+                    <p className="text-gray-300 font-medium mb-2">Anomaly Features</p>
+                    <ul className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {Object.entries(analysis.features).map(([feature, value]) => (
+                        <li
+                          key={feature}
+                          className={`flex justify-between px-4 py-2 rounded-md ${
+                            value ? "bg-red-600/20 text-red-300" : "bg-green-600/20 text-green-300"
+                          }`}
+                        >
+                          <span className="capitalize">{feature.replace(/_/g, " ")}</span>
+                          <span className="font-semibold">{value ? "Anomalous" : "Normal"}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+    </div>
     </div>
   );
 };
-
-export default MetadataVerification;

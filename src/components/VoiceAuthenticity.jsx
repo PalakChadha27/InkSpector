@@ -9,6 +9,39 @@ const VoiceAuthenticity = () => {
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
+  // Sample data for charts
+  const [spectralData, setSpectralData] = useState([]);
+  const [prosodyData, setProsodyData] = useState([]);
+  const [comparisonData, setComparisonData] = useState([]);
+
+  useEffect(() => {
+    // Initialize sample data for charts
+    setSpectralData([
+      { frequency: '0-100Hz', human: 85, synthetic: 15 },
+      { frequency: '100-500Hz', human: 92, synthetic: 8 },
+      { frequency: '500-1kHz', human: 78, synthetic: 22 },
+      { frequency: '1-2kHz', human: 88, synthetic: 12 },
+      { frequency: '2-4kHz', human: 82, synthetic: 18 },
+      { frequency: '4-8kHz', human: 90, synthetic: 10 },
+    ]);
+
+    setProsodyData([
+      { parameter: 'Pitch Variation', score: 82 },
+      { parameter: 'Rhythm Consistency', score: 78 },
+      { parameter: 'Stress Patterns', score: 85 },
+      { parameter: 'Intonation', score: 79 },
+      { parameter: 'Speech Rate', score: 88 },
+    ]);
+
+    setComparisonData([
+      { feature: 'Spectral Consistency', human: 92, synthetic: 45 },
+      { feature: 'Pitch Naturalness', human: 87, synthetic: 38 },
+      { feature: 'Formant Stability', human: 89, synthetic: 42 },
+      { feature: 'Micro-temporal Features', human: 84, synthetic: 29 },
+      { feature: 'Artifact Presence', human: 8, synthetic: 87 },
+    ]);
+  }, []);
+
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     validateAndSetFile(selectedFile);
@@ -58,14 +91,116 @@ const VoiceAuthenticity = () => {
     });
   };
 
+  // Simple bar chart component
+  const BarChart = ({ data, title, width = '100%', height = 200 }) => {
+    const maxValue = Math.max(...data.map(item => item.score));
+    
+    return (
+      <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
+        <h4 className="font-medium text-gray-200 mb-3 text-center">{title}</h4>
+        <div className="flex items-end justify-between h-40 px-2">
+          {data.map((item, index) => (
+            <div key={index} className="flex flex-col items-center" style={{ width: `${100/data.length}%` }}>
+              <div className="text-xs text-gray-400 mb-1 text-center" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                {item.parameter}
+              </div>
+              <div
+                className="bg-[#00ff41]-500 w-3/4 rounded-t hover:bg-[#00ff41]-600 transition-colors"
+                style={{ height: `${(item.score / maxValue) * 70}%` }}
+                title={`${item.score}%`}
+              ></div>
+              <div className="text-xs text-gray-300 mt-1">{item.score}%</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // Comparison chart component
+  const ComparisonChart = ({ data, title }) => {
+    return (
+      <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
+        <h4 className="font-medium text-gray-200 mb-4 text-center">{title}</h4>
+        <div className="space-y-3">
+          {data.map((item, index) => (
+            <div key={index}>
+              <div className="flex justify-between text-xs text-gray-400 mb-1">
+                <span>{item.feature}</span>
+                <span>Human vs Synthetic</span>
+              </div>
+              <div className="flex h-4 bg-gray-700 rounded-full overflow-hidden">
+                <div 
+                  className="bg-green-500" 
+                  style={{ width: `${item.human}%` }}
+                  title={`Human: ${item.human}%`}
+                ></div>
+                <div 
+                  className="bg-red-500" 
+                  style={{ width: `${item.synthetic}%` }}
+                  title={`Synthetic: ${item.synthetic}%`}
+                ></div>
+              </div>
+              <div className="flex justify-between text-xs text-gray-400 mt-1">
+                <span>{item.human}%</span>
+                <span>{item.synthetic}%</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
+
+  // Spectral analysis chart
+  const SpectralChart = ({ data, title }) => {
+    return (
+      <div className="bg-gray-800 p-4 rounded-lg border border-gray-700">
+        <h4 className="font-medium text-gray-200 mb-4 text-center">{title}</h4>
+        <div className="flex items-end justify-between h-48 px-2">
+          {data.map((item, index) => (
+            <div key={index} className="flex flex-col items-center" style={{ width: `${100/data.length}%` }}>
+              <div className="flex flex-col items-center justify-end h-40">
+                <div
+                  className="bg-green-500 w-3/4 rounded-t hover:bg-green-600 transition-colors"
+                  style={{ height: `${item.human}%` }}
+                  title={`Human: ${item.human}%`}
+                ></div>
+                <div
+                  className="bg-red-500 w-3/4 rounded-t hover:bg-red-600 transition-colors"
+                  style={{ height: `${item.synthetic}%` }}
+                  title={`Synthetic: ${item.synthetic}%`}
+                ></div>
+              </div>
+              <div className="text-xs text-gray-300 mt-2 text-center" style={{ writingMode: 'vertical-rl', transform: 'rotate(180deg)' }}>
+                {item.frequency}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="flex justify-center mt-4 space-x-4">
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-green-500 mr-1"></div>
+            <span className="text-xs text-gray-400">Human Voice</span>
+          </div>
+          <div className="flex items-center">
+            <div className="w-3 h-3 bg-red-500 mr-1"></div>
+            <span className="text-xs text-gray-400">Synthetic Voice</span>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gray-800 text-white p-6">
       <div className="max-w-3xl mx-auto">
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 text-[#00ff41] hover:opacity-80 flex items-center"
+          className="mb-6 text-[#00ff41]-400 hover:text-[#00ff41]-300 flex items-center font-medium"
         >
-          ← Back to Tools
+          <FaArrowLeft className="mr-2" />
+          Back to Tools
         </button>
 
         <div className="bg-gray-800 border border-[#00ff41] rounded-xl p-8">

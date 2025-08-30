@@ -363,7 +363,7 @@ const LineChartSVG = ({ data = [], xKey, yKey, height = 160, padding = 10, yLabe
 };
 
 // Bar chart (speech rate)
-const BarChartSVG = ({ data = [], xKey, yKey, height = 160, padding = 10 }) => {
+const BarChartSVG = ({ data = [],  yKey, height = 160, padding = 10 }) => {
   const W = 520;
   const H = height;
   const P = padding;

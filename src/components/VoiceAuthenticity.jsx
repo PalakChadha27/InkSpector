@@ -1,6 +1,7 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { MdKeyboardVoice, MdClose, MdUpload } from "react-icons/md";
+import { FaArrowLeft } from "react-icons/fa";
 
 const VoiceAuthenticity = () => {
   const [file, setFile] = useState(null);
@@ -105,7 +106,7 @@ const VoiceAuthenticity = () => {
                 {item.parameter}
               </div>
               <div
-                className="bg-[#00ff41]-500 w-3/4 rounded-t hover:bg-[#00ff41]-600 transition-colors"
+                className="bg-[#00ff41] w-3/4 rounded-t hover:bg-[#00e036] transition-colors"
                 style={{ height: `${(item.score / maxValue) * 70}%` }}
                 title={`${item.score}%`}
               ></div>
@@ -193,11 +194,11 @@ const VoiceAuthenticity = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-800 text-white p-6">
+    <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-3xl mx-auto">
         <button
           onClick={() => navigate(-1)}
-          className="mb-6 text-[#00ff41]-400 hover:text-[#00ff41]-300 flex items-center font-medium"
+          className="mb-6 text-[#00ff41] hover:opacity-80 flex items-center font-medium"
         >
           <FaArrowLeft className="mr-2" />
           Back to Tools
@@ -217,7 +218,7 @@ const VoiceAuthenticity = () => {
             className={`border-2 border-dashed rounded-lg p-12 text-center mb-4 transition-all 
               ${
                 !file
-                  ? "border-[#00ff41] bg-gray-800 hover:bg-gray-700 cursor-pointer"
+                  ? "border-[#00ff41] bg-gray-800/60 hover:bg-gray-700/80 cursor-pointer"
                   : "border-gray-600"
               }`}
             onDrop={handleDrop}
@@ -264,12 +265,26 @@ const VoiceAuthenticity = () => {
             className={`w-full py-3 rounded-lg font-medium flex items-center justify-center
               ${
                 file
-                  ? "bg-[#00ff41] text-gray-800 hover:opacity-90"
+                  ? "bg-[#00ff41] text-gray-900 hover:bg-[#00e036]"
                   : "bg-gray-700 text-gray-400 cursor-not-allowed"
               }`}
           >
             Analyze Voice
           </button>
+
+          {/* Preview Charts (for demonstration) */}
+          {!file && (
+            <div className="mt-8">
+              <h3 className="text-xl font-semibold text-[#00ff41] mb-4">Analysis Preview</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <BarChart data={prosodyData} title="Prosody Analysis" />
+                <ComparisonChart data={comparisonData} title="Human vs Synthetic Comparison" />
+                <div className="md:col-span-2">
+                  <SpectralChart data={spectralData} title="Spectral Analysis" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

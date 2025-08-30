@@ -53,7 +53,7 @@ const Tools = () => {
             title="Voice Authenticity Analysis"
             description="Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio."
             route="/voiceauthenticity"
-            isReady={false}
+            isReady={true}
           />
           <ToolCard
             icon={<FaFingerprint />}

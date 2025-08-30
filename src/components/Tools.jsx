@@ -74,14 +74,14 @@ const Tools = () => {
             title="Document Verification"
             description="Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices."
             route="/documentverification"
-            isReady={false}
+            isReady={true}
           />
           <ToolCard
             icon={<FaShieldAlt />}
             title="Trust Score Aggregation"
             description="Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users."
             route="/trustscore"
-            isReady={false}
+            isReady={true}
           />
         </div>
       </div>

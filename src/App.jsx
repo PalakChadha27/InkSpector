@@ -6,11 +6,14 @@ import Features from "./components/Features";
 import Footer from "./components/Footer";
 import Analysis from "./components/Analysis";
 import DeepFake from "./components/DeepFake";
-import VoiceAuthenticity from "./components/VoiceAuthenticity"; 
+import VoiceAuthenticity from "./components/VoiceAuthenticity";
+import VoiceAnalysis from "./components/VoiceAnalysis";
 import BioAuthenticity from "./components/BioAuthenticity";
 import MetaVerification from "./components/MetaVerification";
 import DocumentVerification from "./components/DocumentVerification";
+import DocumentAnalysis from "./components/DocumentAnalysis";
 import TrustScore from "./components/TrustScore";
+import TrustScoreAnalysis from './components/TrustScoreAnalysis';
 import CaseStudy from "./components/CaseStudy";
 import Tools from "./components/Tools";
 import Register from "./components/Register";
@@ -55,10 +58,13 @@ function App() {
           <Route path="/analysis" element={<Analysis />} />
           <Route path="/deepfake" element={<DeepFake />} />
           <Route path="/voiceauthenticity" element={<VoiceAuthenticity />} />
+          <Route path="/voice-analysis" element={<VoiceAnalysis />} />
           <Route path="/bioauthenticity" element={<BioAuthenticity />} />
           <Route path="/metaverification" element={<MetaVerification />} />
           <Route path="/documentverification" element={<DocumentVerification />} />
+          <Route path="/document-analysis" element={<DocumentAnalysis />} />
           <Route path="/trustscore" element={<TrustScore />} />
+          <Route path="/trustscore-analysis" element={<TrustScoreAnalysis />} />
           <Route path="/casestudy" element={<CaseStudy />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/register" element={<Register />} />

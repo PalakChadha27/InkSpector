@@ -143,7 +143,7 @@ const BioAuthenticityCheck = () => {
 
             <p className="mb-2">
               <span className="font-semibold">AI Generated:</span>{" "}
-              {results.is_ai_generated ? "Yes" : "No"}
+              {results.prediction=="ai" ? "Yes" : "No"}
             </p>
             <p className="mb-2">
               <span className="font-semibold">Confidence:</span>{" "}

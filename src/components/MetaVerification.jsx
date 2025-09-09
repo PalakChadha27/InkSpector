@@ -163,33 +163,51 @@ const MetadataVerification = () => {
         </div>
 
         {/* Results Section */}
-        {(metadata || analysis) && (
-          <div className="bg-gray-800 rounded-xl p-8">
-            <h2 className="text-2xl font-bold mb-4">Results</h2>
+       {(metadata || analysis) && (
+  <div className="bg-gray-900 rounded-2xl p-6 shadow-lg space-y-8 text-white">
+    <h2 className="text-3xl font-bold border-b border-gray-700 pb-4">Results</h2>
 
-            {metadata && (
-              <>
-                <h3 className="text-xl font-semibold mb-2 flex items-center">
-                  <FaInfoCircle className="mr-2 text-[#00ff41]" /> Extracted Metadata
-                </h3>
-                <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm mb-6">
-                  {JSON.stringify(metadata, null, 2)}
-                </pre>
-              </>
-            )}
+    {metadata && (
+      <section>
+        <h3 className="text-2xl font-semibold text-[#00ff41] flex items-center mb-4">
+          <FaInfoCircle className="mr-3" />
+          Extracted Metadata
+        </h3>
+        <div className="space-y-2">
+          {Object.entries(metadata).map(([key, value]) => (
+            <div
+              key={key}
+              className="bg-gray-800 rounded-lg px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between border border-gray-700"
+            >
+              <span className="font-medium text-gray-300 capitalize">{key.replace(/_/g, ' ')}:</span>
+              <span className="text-gray-100">{String(value)}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
 
-            {analysis && (
-              <>
-                <h3 className="text-xl font-semibold mb-2 flex items-center">
-                  <FaHistory className="mr-2 text-[#00ff41]" /> AI Analysis
-                </h3>
-                <pre className="bg-gray-900 p-4 rounded-lg overflow-x-auto text-sm">
-                  {JSON.stringify(analysis, null, 2)}
-                </pre>
-              </>
-            )}
-          </div>
-        )}
+    {analysis && (
+      <section>
+        <h3 className="text-2xl font-semibold text-[#00ff41] flex items-center mb-4">
+          <FaHistory className="mr-3" />
+          AI Analysis
+        </h3>
+        <div className="space-y-2">
+          {Object.entries(analysis).map(([key, value]) => (
+            <div
+              key={key}
+              className="bg-gray-800 rounded-lg px-4 py-3 flex flex-col sm:flex-row sm:items-center sm:justify-between border border-gray-700"
+            >
+              <span className="font-medium text-gray-300 capitalize">{key.replace(/_/g, ' ')}:</span>
+              <span className="text-gray-100">{String(value)}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+    )}
+  </div>
+)}
       </div>
     </div>
   );

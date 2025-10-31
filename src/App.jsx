@@ -17,6 +17,10 @@ import TrustScoreAnalysis from './components/TrustScoreAnalysis';
 import CaseStudy from "./components/CaseStudy";
 import Tools from "./components/Tools";
 import Register from "./components/Register";
+import Login from "./components/Login";
+import Dashboard from "./components/Dashboard";
+import Quiz from "./components/Quiz";
+import Profile from "./components/Profile";
 
 function App() {
   // This will run once when the app loads
@@ -68,6 +72,10 @@ function App() {
           <Route path="/casestudy" element={<CaseStudy />} />
           <Route path="/tools" element={<Tools />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/quiz" element={<Quiz />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
         <Footer />
       </div>

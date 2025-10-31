@@ -269,7 +269,6 @@ const Register = () => {
               'Create Account'
             )}
           </button>
-
           {/* Login Link */}
           <div className="mt-6 text-center">
             <p className="text-gray-400">

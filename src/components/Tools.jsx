@@ -33,7 +33,7 @@ const Tools = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-[#00ff41]">InkSpector Verification Tools</h1>
+          <h1 className="text-4xl font-bold mb-4 text-[#00ff41]">TrustNet CyberCop Verification Tools</h1>
           <p className="text-xl text-white max-w-3xl mx-auto">
             Comprehensive suite of AI-powered authentication technologies to combat digital forgery
           </p>

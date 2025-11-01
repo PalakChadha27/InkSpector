@@ -13,7 +13,7 @@ export default function HeroSection() {
         <section className="px-8 py-16 bg-gray-800 rounded-t-3xl">
           <h3 className="text-3xl font-bold text-center mb-12">Comprehensive Forensic Analysis</h3>
           <p className="text-center max-w-xl mx-auto text-gray-400 text-lg mb-16">
-            InkSpector combines cutting-edge AI models to help you verify authenticity across images, audio, text, and documents — all in one place.
+            TrustNet CyberCop combines cutting-edge AI models to help you verify authenticity across images, audio, text, and documents — all in one place.
           </p>
 
           <div className="grid gap-8 md:grid-cols-3">

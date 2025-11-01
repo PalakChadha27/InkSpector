@@ -88,7 +88,7 @@ const CaseStudy = () => {
     <div className="min-h-screen bg-gray-900 text-white p-6">
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold mb-4 ">InkSpector Case Studies</h1>
+          <h1 className="text-4xl font-bold mb-4 ">TrustNet CyberCop Case Studies</h1>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Real-world applications and measurable benefits of our AI-powered verification platform
           </p>

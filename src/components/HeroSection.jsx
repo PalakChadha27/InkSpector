@@ -17,7 +17,7 @@ export default function HeroSection() {
       <section className="container mx-auto flex flex-col items-center justify-center text-center py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Heading with text shadow */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">
-          Welcome to <span className="text-[#00FF41]">InkSpector</span>
+          Welcome to <span className="text-[#00FF41]">TrustNet CyberCop</span>
         </h1>
         
         {/* Subtitle with stronger contrast */}

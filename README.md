@@ -1,4 +1,4 @@
-# 🔍 InkSpector
+# 🔍 TrustNet CyberCop
 
 AI-powered **authenticity & tampering detection platform** that verifies images, videos, voices, documents, and profiles — providing a **Trust Score** for simplified decision-making.
 
@@ -50,8 +50,8 @@ src/
 ### 1️⃣ Clone the repository
 
 ```bash
-git clone https://github.com/PalakChadha27/InkSpector.git
-cd InkSpector
+git clone https://github.com/PalakChadha27/TrustNet CyberCop.git
+cd TrustNet CyberCop
 ```
 
 ### 2️⃣ Create a virtual environment

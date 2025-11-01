@@ -7,7 +7,7 @@ export default function Navbar() {
   return (
     <div className=" bg-[#0D0208] text-[#00FF41] font-sans ">
     <header className="flex items-center justify-between px-8 py-5 border-b border-gray-700 ">
-            <h1 className="text-2xl font-bold">InkSpector</h1>
+            <h1 className="text-2xl font-bold">TrustNet CyberCop</h1>
           <nav className="flex-1 flex justify-center">
         <div className="flex gap-8 text-gray-400">
           <Link to="/" className="text-white hover:text-[#00FF41] flex items-center gap-2 "><FaHome />Home</Link>

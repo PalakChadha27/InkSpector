@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid md:grid-cols-4 gap-8">
           {/* Column 1: Company Info */}
           <div>
-            <h2 className="text-[#00ff41] text-xl font-bold mb-4">InkSpector</h2>
+            <h2 className="text-[#00ff41] text-xl font-bold mb-4">TrustNet CyberCop</h2>
             <p className="text-sm text-gray-300 mb-4">
               Advanced AI-powered document forensics platform trusted by law
               enforcement agencies, legal professionals, and financial
@@ -18,7 +18,7 @@ export default function Footer() {
               <a href="#" className="text-[#00ff41] text-xl hover:opacity-80">
                 <FaLinkedin />
               </a>
-              <a href="https://github.com/PalakChadha27/InkSpector" className="text-[#00ff41] text-xl hover:opacity-80">
+              <a href="https://github.com/PalakChadha27/TrustNet CyberCop" className="text-[#00ff41] text-xl hover:opacity-80">
                 <FaGithub />
               </a>
             </div>
@@ -70,7 +70,7 @@ export default function Footer() {
 
         {/* Bottom Line */}
         <div className="border-t border-gray-700 mt-12 pt-6 text-sm text-gray-400 text-center">
-          © 2025 InkSpector. All rights reserved. |{' '}
+          © 2025 TrustNet CyberCop. All rights reserved. |{' '}
           <a href="#" className="text-[#00ff41] hover:underline">
             Privacy Policy
           </a>{' '}

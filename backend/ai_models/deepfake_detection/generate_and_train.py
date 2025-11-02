@@ -35,8 +35,7 @@ def train_model():
     # Generate data
     X, y = generate_dataset(2000)
     X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.2)
-    
-    # Enhanced CNN Model
+
     model = models.Sequential([
         layers.Conv2D(64, (3,3), activation='relu', input_shape=(256, 256, 3)),
         layers.MaxPooling2D((2,2)),

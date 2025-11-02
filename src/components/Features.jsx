@@ -13,7 +13,7 @@ export default function HeroSection() {
         <section className="px-8 py-16 bg-gray-800 rounded-t-3xl">
           <h3 className="text-3xl font-bold text-center mb-12">Comprehensive Forensic Analysis</h3>
           <p className="text-center max-w-xl mx-auto text-gray-400 text-lg mb-16">
-            InkSpector combines cutting-edge AI models to help you verify authenticity across images, audio, text, and documents — all in one place.
+            TrustNet CyberCop-Tools combines cutting-edge AI models to help you verify authenticity across images, audio, text, and documents — all in one place.
           </p>
 
           <div className="grid gap-8 md:grid-cols-3">
@@ -134,11 +134,11 @@ export default function HeroSection() {
           <div className="grid gap-5 md:grid-cols-3">
             {[
               { icon: <MdGesture />, title: "Deepfake Detection", desc: "Identifies AI-manipulated or tampered face images and videos using advanced convolutional neural networks that analyze pixel-level inconsistencies and temporal artifacts.", link: "/deepfake",isReady:true },
-              { icon: <HiOutlineDocumentText />, title: "Voice Authenticity Analysis", desc: "Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio", link: "/voiceauthenticity",isReady:true },
-              { icon: <FaFingerprint />, title: "Bio/Profile Originality Checking", desc: "Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities.", link: "/bioauthenticity",isReady:true },
-              { icon: <GrScan />, title: "Metadata Integrity Verification", desc: "Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation.", link: "/metaverification",isReady:true },
-              { icon: <FaRegFilePdf />, title: "Document Verification", desc: "Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices.", link: "/documentverification",isReady:true },
-              { icon: <FaRegFilePdf />, title: "Trust Score Aggregation", desc: "Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users.", link: "/trustscore",isReady:true }
+              { icon: <HiOutlineDocumentText />, title: "Voice Authenticity Analysis", desc: "Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio", link: "/voiceauthenticity",isReady:false },
+              { icon: <FaFingerprint />, title: "Bio/Profile Originality Checking", desc: "Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities.", link: "/bioauthenticity",isReady:false },
+              { icon: <GrScan />, title: "Metadata Integrity Verification", desc: "Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation.", link: "/metaverification",isReady:false },
+              { icon: <FaRegFilePdf />, title: "Document Verification", desc: "Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices.", link: "/documentverification",isReady:false },
+              { icon: <FaRegFilePdf />, title: "Trust Score Aggregation", desc: "Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users.", link: "/trustscore",isReady:false }
             ].map((tool, i) => (
               <div key={i} className="p-6 bg-gray-900 rounded-xl border border-gray-700 hover:border-[#00ff41] transition">
                 <div className="mb-4 text-3xl" style={{ color: "#00ff41" }}>{tool.icon}</div>

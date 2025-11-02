@@ -33,7 +33,7 @@ const Tools = () => {
       <div className="max-w-6xl mx-auto">
         {/* Header Section */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4 text-[#00ff41]">InkSpector Verification Tools</h1>
+          <h1 className="text-4xl font-bold mb-4 text-[#00ff41]">TrustNet CyberCop-Tools Verification Tools</h1>
           <p className="text-xl text-white max-w-3xl mx-auto">
             Comprehensive suite of AI-powered authentication technologies to combat digital forgery
           </p>
@@ -53,35 +53,35 @@ const Tools = () => {
             title="Voice Authenticity Analysis"
             description="Detects synthetic or cloned voice recordings through audio feature extraction and classification models, distinguishing real human speech from AI-generated audio."
             route="/voiceauthenticity"
-            isReady={true}
+            isReady={false}
           />
           <ToolCard
             icon={<FaFingerprint />}
             title="Bio/Profile Originality"
             description="Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities."
             route="/bioauthenticity"
-            isReady={true}
+            isReady={false}
           />
           <ToolCard
             icon={<GrScan />}
             title="Metadata Integrity"
             description="Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation."
             route="/metaverification"
-            isReady={true}
+            isReady={false}
           />
           <ToolCard
             icon={<MdAssignment />}
             title="Document Verification"
             description="Employs OCR, format analysis, and forgery detection techniques to validate the authenticity of official documents like IDs, passports, certificates, and invoices."
             route="/documentverification"
-            isReady={true}
+            isReady={false}
           />
           <ToolCard
             icon={<FaShieldAlt />}
             title="Trust Score Aggregation"
             description="Combines outputs from all AI models into a single, easy-to-understand trust score with a color-coded risk indicator, simplifying decision-making for users."
             route="/trustscore"
-            isReady={true}
+            isReady={false}
           />
         </div>
       </div>

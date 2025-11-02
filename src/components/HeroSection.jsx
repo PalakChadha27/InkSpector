@@ -8,7 +8,7 @@ export default function HeroSection() {
       {/* Semi-transparent background image */}
       <div className="absolute inset-0 z-0 opacity-20">
         <img 
-          src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80" 
+          src="https://images.unsplash.com/photo-1556740738-b6a63e27c4df?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2000&q=80"
           alt="AI technology background"
           className="w-full h-full object-cover"
         />
@@ -17,7 +17,7 @@ export default function HeroSection() {
       <section className="container mx-auto flex flex-col items-center justify-center text-center py-20 px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Main Heading with text shadow */}
         <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-6 leading-tight drop-shadow-lg">
-          Welcome to <span className="text-[#00FF41]">InkSpector</span>
+          Welcome to <span className="text-[#00FF41]">TrustNet CyberCop-Tools</span>
         </h1>
         
         {/* Subtitle with stronger contrast */}

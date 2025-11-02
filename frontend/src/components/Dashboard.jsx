@@ -271,7 +271,7 @@ const Dashboard = () => {
     } finally {
       setLoading(false);
     }
-  }, [navigate]);
+  }, [navigate]); // navigate dependency for handleLogout
 
   useEffect(() => {
     fetchData();
@@ -279,8 +279,8 @@ const Dashboard = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-900 text-white flex items-center justify-center p-6">
-        <svg className="animate-spin h-8 w-8 text-green-accent" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <div className="min-h-screen bg-slate-900 text-white flex items-center justify-center p-6">
+        <svg className="animate-spin h-8 w-8" style={{ color: '#00ff41' }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
           <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
           <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
         </svg>
@@ -289,12 +289,7 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
-      {/* NOTE: The sidebar was not provided. 
-        I'm assuming this dashboard is the main content area.
-        The handleLogout function is ready for your sidebar's logout button.
-      */}
-      
+    <div className="min-h-screen bg-slate-900 text-white">
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome Section */}
@@ -306,40 +301,40 @@ const Dashboard = () => {
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
           {/* Protected Card */}
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Protected</h3>
-              <FaLock className="text-xl text-green-accent" />
+              <FaLock className="text-xl" style={{ color: '#00ff41' }} />
             </div>
             <p className="text-3xl font-bold mb-2">{user?.protectionPercent || 0}%</p>
             <p className="text-gray-400 text-sm">You're {user?.protectionPercent || 0}% safer online</p>
           </div>
 
           {/* Threats Blocked Card */}
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Threats Blocked</h3>
-              <FaShieldAlt className="text-xl text-green-accent" />
+              <FaShieldAlt className="text-xl" style={{ color: '#00ff41' }} />
             </div>
             <p className="text-3xl font-bold mb-2">{user?.threatsBlocked || 0}</p>
             <p className="text-gray-400 text-sm">&nbsp;</p>
           </div>
 
           {/* Credits Card */}
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Credits</h3>
-              <FaCoins className="text-xl text-green-accent" />
+              <FaCoins className="text-xl" style={{ color: '#00ff41' }} />
             </div>
             <p className="text-3xl font-bold mb-2">{user?.credits || 0}</p>
             <p className="text-gray-400 text-sm">&nbsp;</p>
           </div>
 
           {/* Attempts Detected Card */}
-          <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+          <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-semibold">Attempts Detected</h3>
-              <FaEye className="text-xl text-green-accent" />
+              <FaEye className="text-xl" style={{ color: '#00ff41' }} />
             </div>
             <p className="text-3xl font-bold mb-2">{user?.attemptsDetected || 0}</p>
             <p className="text-gray-400 text-sm">&nbsp;</p>
@@ -350,27 +345,30 @@ const Dashboard = () => {
           {/* Left Column - Security Tip & Recent Activity */}
           <div className="lg:col-span-2 space-y-8">
             {/* Security Tip */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
               <div className="flex items-center mb-4">
-                <FaLightbulb className="text-xl mr-3 text-green-accent" />
+                <FaLightbulb className="text-xl mr-3" style={{ color: '#00ff41' }} />
                 <h3 className="text-xl font-bold">Security Tip</h3>
               </div>
               <p className="text-gray-300">Use 2FA (Two-Factor Authentication) whenever possible to double your account security.</p>
             </div>
 
             {/* Recent Activity */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Recent Activity</h3>
               <p className="text-gray-400 mb-4">Your latest browsing security checks</p>
               <div className="space-y-3">
                 {activities.length > 0 ? (
                   activities.map((activity) => (
-                    <div key={activity._id} className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between py-2 border-b border-gray-700 last:border-b-0">
+                    <div key={activity._id} className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between py-2 border-b border-slate-700 last:border-b-0">
                       <div>
                         <p className="font-medium text-gray-300 break-all">{activity.url}</p>
                         <p className="text-gray-500 text-sm">{formatDate(activity.checkedAt || activity.createdAt)}</p>
                       </div>
-                      <span className={`mt-2 sm:mt-0 px-3 py-1 text-sm rounded-full font-medium ${activity.isSafe ? 'bg-green-accent/10 text-green-accent' : 'bg-red-500/10 text-red-500'}`}>
+                      <span 
+                        className={`mt-2 sm:mt-0 px-3 py-1 text-sm rounded-full font-medium ${activity.isSafe ? 'bg-green-500/10' : 'bg-red-500/10'}`}
+                        style={{ color: activity.isSafe ? '#00ff41' : '#ef4444' }}
+                      >
                         {activity.isSafe ? 'Safe' : (activity.detectedThreat || 'Unsafe')}
                       </span>
                     </div>
@@ -385,26 +383,27 @@ const Dashboard = () => {
           {/* Right Column - Security Quiz & Stats */}
           <div className="space-y-8">
             {/* Security Quiz Card */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
               <h3 className="text-xl font-bold mb-2">Take Security Quiz</h3>
               <p className="text-gray-400 mb-6">
                 Test your knowledge and earn credits to unlock features
               </p>
               <button 
                 onClick={() => navigate('/quiz')}
-                className="w-full py-3 rounded-lg font-medium transition bg-green-accent text-gray-900 hover:bg-green-accent/90"
+                className="w-full py-3 rounded-lg font-medium transition hover:opacity-90"
+                style={{ backgroundColor: '#00ff41', color: '#0D0208' }}
               >
                 Start Quiz
               </button>
             </div>
 
             {/* Quick Stats */}
-            <div className="bg-gray-800 rounded-xl p-6 border border-gray-700">
+            <div className="bg-slate-800 rounded-xl p-6 border border-slate-700">
               <h3 className="text-xl font-bold mb-4">Quick Stats</h3>
               
               {/* Time Period Tabs */}
               <div className="flex space-x-4 mb-6">
-                <button className="text-sm font-medium text-green-accent">
+                <button className="text-sm font-medium" style={{ color: '#00ff41' }}>
                   This Week
                 </button>
                 <button className="text-sm font-medium text-gray-400 hover:text-gray-200">
@@ -430,19 +429,19 @@ const Dashboard = () => {
                   <span className="text-gray-400">Quiz Score</span>
                   <span className="font-bold">0%</span>
                 </div>
-                <div className="w-full bg-gray-700 rounded-full h-2">
+                <div className="w-full bg-slate-700 rounded-full h-2">
                   <div 
-                    className="bg-green-accent h-2 rounded-full"
-                    style={{ width: '0%' }}
+                    className="h-2 rounded-full"
+                    style={{ backgroundColor: '#00ff41', width: '0%' }}
                   ></div>
                 </div>
               </div>
             </div>
 
             {/* Bottom Navigation (for mobile) */}
-            <div className="bg-gray-800 rounded-xl p-4 border border-gray-700 lg:hidden">
+            <div className="bg-slate-800 rounded-xl p-4 border border-slate-700 lg:hidden">
               <div className="flex justify-around items-center">
-                <button className="flex-1 text-center py-2 font-medium text-green-accent flex flex-col items-center">
+                <button className="flex-1 text-center py-2 font-medium flex flex-col items-center" style={{ color: '#00ff41' }}>
                   <FaChartBar className="mb-1" />
                   Dashboard
                 </button>
@@ -471,3 +470,4 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+

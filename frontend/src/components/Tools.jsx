@@ -60,14 +60,14 @@ const Tools = () => {
             title="Bio/Profile Originality"
             description="Uses natural language processing to compare user bios and profiles against known datasets, detecting copied or AI-generated text to flag suspicious identities."
             route="/bioauthenticity"
-            isReady={false}
+            isReady={true}
           />
           <ToolCard
             icon={<GrScan />}
             title="Metadata Integrity"
             description="Examines file metadata such as EXIF data in images or documents for inconsistencies and signs of tampering, adding an extra layer of authenticity validation."
             route="/metaverification"
-            isReady={false}
+            isReady={true}
           />
           <ToolCard
             icon={<MdAssignment />}

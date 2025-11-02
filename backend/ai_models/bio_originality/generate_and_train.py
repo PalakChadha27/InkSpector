@@ -21,7 +21,7 @@ def train_model():
         df["bio"], df["label"], test_size=0.2, stratify=df["label"], random_state=42
     )
 
-    # Train pipeline
+    
     model = Pipeline([
         ("tfidf", TfidfVectorizer(ngram_range=(1,2), max_features=5000)),
         ("clf", LogisticRegression(max_iter=200))

@@ -303,8 +303,7 @@ import { FaShieldAlt, FaUser, FaCog, FaSignOutAlt, FaEnvelope, FaPhone, FaLock, 
 import { toast } from 'react-hot-toast';
 
 // Get the API URL from Vite's env variables
-//const API_URL = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
-const API_URL = "https://inkspector-xtrustnetcybercorp-node/api" || "http://localhost:5000/api";
+const API_URL = import.meta.env.VITE_API_BASE || "http://localhost:5000/api";
 
 const Profile = () => {
   const navigate = useNavigate();
